@@ -1,10 +1,12 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:test_task_with_auto_route/bloc/login_bloc.dart';
-import 'package:auto_route/auto_route.dart';
+import '../screens/confirmation_code_screen.dart';
+// import 'package:auto_route/auto_route.dart';
 import 'package:test_task_with_auto_route/routes/app_router.gr.dart';
 
 class FirstScreen extends StatefulWidget {
@@ -36,6 +38,8 @@ class _FirstScreenState extends State<FirstScreen> {
               newState is SubmitPhoneNumberState,
           listener: (context, state) {
             if (state is SubmitPhoneNumberState) {
+              print("the newwwwwwwwwwwww");
+               Get.to(() => ConfimationCodeScreen());
               // context.router.navigate(ConfimationCodeRoute());
             }
           },

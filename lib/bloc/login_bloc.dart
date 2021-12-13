@@ -7,11 +7,11 @@ part 'login_state.dart';
 part 'login_event.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  final AuthRepository authRepository;
+  final AuthRepository? authRepository;
 
   LoginBloc({
     required LoginInitial initState,
-    required this.authRepository,
+     this.authRepository,
   }) : super(initState) {
     add(NoEvent());
   }
@@ -19,11 +19,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   @override
   Stream<LoginState> mapEventToState(LoginEvent event) async* {
     if (event is OnSubmitPhoneNumberEvent) {
-      authRepository.savePhoneNumber(event.phoneNumber);
+      authRepository!.savePhoneNumber(event.phoneNumber);
       yield SubmitPhoneNumberState();
       //!Navigate
     } else if (event is CheckCodeEvent) {
-      final isCodeTrue = authRepository.checkPin(event.pin);
+      final isCodeTrue = authRepository!.checkPin(event.pin);
 
       if (isCodeTrue == true) {
         //!yield a state
@@ -34,17 +34,35 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         yield WrongCodeState();
       }
     } else if (event is CreateAccountEvent) {
-      await authRepository.saveCode(
+      await authRepository!.saveCode(
         event.newPin,
       );
-      yield UserAuthenticated(authRepository.details);
+      yield UserAuthenticated(authRepository!.details);
     } else if (event is NoEvent) {
-      final bool hasToken = authRepository.details.isValid();
-      if (hasToken) {
-        yield UserAuthenticated(authRepository.details);
+      final bool hasToken = authRepository!.details.isValid();
+      print(hasToken);
+      print(hasToken);
+      print("hasToken");
+      print(hasToken);
+      print(hasToken);
+      // ignore: unnecessary_null_comparison
+      if (hasToken != null) {
+        yield UserAuthenticated(authRepository!.details);
       } else {
         yield UserUnauthenticated();
       }
     }
+  }
+
+  @override
+  void onChange(Change<LoginState> change) {
+    print(change.currentState);
+    super.onChange(change);
+  }
+
+  @override
+  void onEvent(LoginEvent event) {
+    print(event);
+    super.onEvent(event);
   }
 }
