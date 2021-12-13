@@ -14,3 +14,5 @@ class SubmitPhoneNumberState extends LoginState {}
 class CorrectCodeState extends LoginState {}
 
 class WrongCodeState extends LoginState {}
+
+class CreateAccountState extends LoginState {}

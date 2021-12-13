@@ -36,6 +36,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         event.newPin,
         event.phoneNumber,
       );
+      await authRepository.persistLogin(token);
     }
   }
 }
