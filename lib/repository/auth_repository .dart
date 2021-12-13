@@ -5,31 +5,17 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 class AuthRepository {
   final FlutterSecureStorage storage = new FlutterSecureStorage();
 
-  String login(String pin) {
-    // const String sendCode = "9323";
-    // return sendCode;
-    return pin;
-  }
-
-  bool isCodeCorrect(String code, String phoneNumber) {
+//*
+  bool checkPin(String pin) {
     const String sentCode = "9323";
-    if (code == sentCode) {
+    if (pin == sentCode) {
       return true;
     } else {
       return false;
     }
   }
 
-  
-
-  // bool register(String pin) {
-  //   if (pin != null) {
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // }
-
+//*
   Future<void> persistLogin(String phoneNumber) async {
     await storage.write(key: 'phone', value: phoneNumber);
   }
@@ -42,5 +28,9 @@ class AuthRepository {
     } else {
       return false;
     }
+  }
+
+  String createAccount(String code, String number) {
+    return number;
   }
 }

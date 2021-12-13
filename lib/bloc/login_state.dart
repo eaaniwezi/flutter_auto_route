@@ -9,12 +9,8 @@ abstract class LoginState extends Equatable {
 
 class LoginInitial extends LoginState {}
 
-class UserLoginInitial extends LoginState {}
+class SubmitPhoneNumberState extends LoginState {}
 
-class UserLoginLoading extends LoginState {}
+class CorrectCodeState extends LoginState {}
 
-class UserLoginFailure extends LoginState {
-  final String error;
-
-  const UserLoginFailure({required this.error});
-}
+class WrongCodeState extends LoginState {}

@@ -4,18 +4,39 @@ abstract class LoginEvent extends Equatable {
   const LoginEvent();
 }
 
-class OnUserLoginButtonPressed extends LoginEvent {
+class OnSubmitPhoneNumberEvent extends LoginEvent {
   final String phoneNumber;
-  final String codeFromMessage;
 
-  const OnUserLoginButtonPressed({
+  const OnSubmitPhoneNumberEvent({
     required this.phoneNumber,
-    required this.codeFromMessage,
   });
 
   @override
-  List<Object> get props => [
-        phoneNumber,
-        codeFromMessage,
-      ];
+  List<Object> get props => [phoneNumber];
+}
+
+//*
+class CheckCodeEvent extends LoginEvent {
+  final String pin;
+
+  const CheckCodeEvent({
+    required this.pin,
+  });
+
+  @override
+  List<Object> get props => [pin];
+}
+
+//*
+class CreateAccountEvent extends LoginEvent {
+  final String newPin;
+  final String phoneNumber;
+
+  const CreateAccountEvent({
+    required this.newPin,
+    required this.phoneNumber,
+  });
+
+  @override
+  List<Object> get props => [newPin, phoneNumber];
 }
