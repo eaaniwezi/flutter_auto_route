@@ -36,7 +36,7 @@ class _FirstScreenState extends State<FirstScreen> {
               newState is SubmitPhoneNumberState,
           listener: (context, state) {
             if (state is SubmitPhoneNumberState) {
-              context.router.navigate(ConfimationCodeRoute());
+              // context.router.navigate(ConfimationCodeRoute());
             }
           },
           child: ListView(

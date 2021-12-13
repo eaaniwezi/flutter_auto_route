@@ -24,12 +24,12 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-  final _appRouter = AppRouter();
+  // final _appRouter = AppRouter();
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      routerDelegate: _appRouter.delegate(),
-      routeInformationParser: _appRouter.defaultRouteParser(),
+    return MaterialApp(
+      // routerDelegate: _appRouter.delegate(),
+      // routeInformationParser: _appRouter.defaultRouteParser(),
       debugShowCheckedModeBanner: false,
       title: 'Test App',
     );
