@@ -1,9 +1,10 @@
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:test_task_with_auto_route/models/login_data.dart';
 import 'package:test_task_with_auto_route/repository/auth_repository%20.dart';
 
-part 'login_event.dart';
 part 'login_state.dart';
+part 'login_event.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final AuthRepository authRepository;
@@ -11,13 +12,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc({
     required LoginInitial initState,
     required this.authRepository,
-  })  : assert(authRepository != null),
-        super(initState);
+  }) : super(initState) {
+    add(NoEvent());
+  }
 
   @override
   Stream<LoginState> mapEventToState(LoginEvent event) async* {
     if (event is OnSubmitPhoneNumberEvent) {
-      await authRepository.persistLogin(event.phoneNumber);
+      authRepository.savePhoneNumber(event.phoneNumber);
       yield SubmitPhoneNumberState();
       //!Navigate
     } else if (event is CheckCodeEvent) {
@@ -32,11 +34,17 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         yield WrongCodeState();
       }
     } else if (event is CreateAccountEvent) {
-      final token = authRepository.createAccount(
+      await authRepository.saveCode(
         event.newPin,
-        event.phoneNumber,
       );
-      await authRepository.persistLogin(token);
+      yield UserAuthenticated(authRepository.details);
+    } else if (event is NoEvent) {
+      final bool hasToken = authRepository.details.isValid();
+      if (hasToken) {
+        yield UserAuthenticated(authRepository.details);
+      } else {
+        yield UserUnauthenticated();
+      }
     }
   }
 }

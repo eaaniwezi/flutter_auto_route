@@ -2,7 +2,11 @@ part of 'login_bloc.dart';
 
 abstract class LoginEvent extends Equatable {
   const LoginEvent();
+  @override
+  List<Object> get props => [];
 }
+
+class NoEvent extends LoginEvent {}
 
 class OnSubmitPhoneNumberEvent extends LoginEvent {
   final String phoneNumber;
@@ -30,13 +34,11 @@ class CheckCodeEvent extends LoginEvent {
 //*
 class CreateAccountEvent extends LoginEvent {
   final String newPin;
-  final String phoneNumber;
 
   const CreateAccountEvent({
     required this.newPin,
-    required this.phoneNumber,
   });
 
   @override
-  List<Object> get props => [newPin, phoneNumber];
+  List<Object> get props => [newPin];
 }

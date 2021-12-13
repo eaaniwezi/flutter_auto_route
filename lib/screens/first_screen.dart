@@ -2,7 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:sms_autofill/sms_autofill.dart';
-import 'package:test_task_with_auto_route/screens/confirmation_code_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:test_task_with_auto_route/bloc/login_bloc.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:test_task_with_auto_route/routes/app_router.gr.dart';
 
 class FirstScreen extends StatefulWidget {
   const FirstScreen({Key? key}) : super(key: key);
@@ -28,13 +31,22 @@ class _FirstScreenState extends State<FirstScreen> {
       ),
       body: Form(
         key: _formKey,
-        child: ListView(
-          children: [
-            _header(),
-            _numberField(),
-            _infoText(),
-            _button(context),
-          ],
+        child: BlocListener<LoginBloc, LoginState>(
+          listenWhen: (oldState, newState) =>
+              newState is SubmitPhoneNumberState,
+          listener: (context, state) {
+            if (state is SubmitPhoneNumberState) {
+              context.router.navigate(ConfimationCodeRoute());
+            }
+          },
+          child: ListView(
+            children: [
+              _header(),
+              _numberField(),
+              _infoText(),
+              _button(context),
+            ],
+          ),
         ),
       ),
     );
@@ -105,11 +117,9 @@ class _FirstScreenState extends State<FirstScreen> {
             final signCode = await SmsAutoFill().getAppSignature;
             print(signCode);
             var phoneNumber = phoneNumberController.text;
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        ConfimationCodeScreen(phoneDetail: phoneNumber)));
+            context
+                .read<LoginBloc>()
+                .add(OnSubmitPhoneNumberEvent(phoneNumber: phoneNumber));
           }
         },
         child: Container(

@@ -4,10 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 
 class ConfimationCodeScreen extends StatefulWidget {
- final String phoneDetail;
   const ConfimationCodeScreen({
     Key? key,
-    required this.phoneDetail,
   }) : super(key: key);
 
   @override
@@ -48,7 +46,6 @@ class _ConfimationCodeScreenState extends State<ConfimationCodeScreen> {
               right: 20,
             ),
             child: PinFieldAutoFill(
-              
               codeLength: 4,
             ),
           ),
@@ -59,7 +56,6 @@ class _ConfimationCodeScreenState extends State<ConfimationCodeScreen> {
 
   void _listenOtp() async {
     await SmsAutoFill().listenForCode();
-    print(widget.phoneDetail);
   }
 
   _header() {
