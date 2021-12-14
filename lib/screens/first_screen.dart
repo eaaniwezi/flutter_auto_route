@@ -37,8 +37,8 @@ class _FirstScreenState extends State<FirstScreen> {
           listenWhen: (oldState, newState) =>
               newState is SubmitPhoneNumberState,
           listener: (context, state) {
+         
             if (state is SubmitPhoneNumberState) {
-              print("the newwwwwwwwwwwww");
                Get.to(() => ConfimationCodeScreen());
               // context.router.navigate(ConfimationCodeRoute());
             }

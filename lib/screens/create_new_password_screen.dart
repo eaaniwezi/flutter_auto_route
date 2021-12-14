@@ -5,22 +5,22 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 import 'package:test_task_with_auto_route/bloc/login_bloc.dart';
-import 'package:test_task_with_auto_route/screens/create_new_password_screen.dart';
+import 'package:test_task_with_auto_route/screens/user_details_screen.dart';
 
-class ConfimationCodeScreen extends StatefulWidget {
-  const ConfimationCodeScreen({
+class CreateNewPasswordScreen extends StatefulWidget {
+  const CreateNewPasswordScreen({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<ConfimationCodeScreen> createState() => _ConfimationCodeScreenState();
+  State<CreateNewPasswordScreen> createState() =>
+      _CreateNewPasswordScreenState();
 }
 
-class _ConfimationCodeScreenState extends State<ConfimationCodeScreen> {
-  final _formKeys = GlobalKey<FormState>();
-  TextEditingController codeController = TextEditingController();
+class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
+  final _formPasswordKey = GlobalKey<FormState>();
+  TextEditingController newCodeController = TextEditingController();
   String enteredCode = "";
-  bool isCodeTrue = false;
   @override
   void initState() {
     super.initState();
@@ -37,7 +37,7 @@ class _ConfimationCodeScreenState extends State<ConfimationCodeScreen> {
         elevation: 0,
         leading: IconButton(
           onPressed: () {
-            Navigator.pop(context);
+            // Navigator.pop(context);
           },
           icon: Icon(
             Icons.arrow_back_ios_new_rounded,
@@ -47,18 +47,13 @@ class _ConfimationCodeScreenState extends State<ConfimationCodeScreen> {
       ),
       body: BlocListener<LoginBloc, LoginState>(
         listener: (context, state) {
-          if (state is CorrectCodeState) {
-     
-            Get.to(() => CreateNewPasswordScreen());
-            // context.router.navigate(ConfimationCodeRoute());
-          } else if (state is WrongCodeState) {
-            setState(() {
-              isCodeTrue = true;
-            });
+        
+          if (state is UserAuthenticated) {
+            Get.to(() => UserDetailsScreen());
           }
         },
         child: Form(
-          key: _formKeys,
+          key: _formPasswordKey,
           child: ListView(
             children: [
               _header(),
@@ -68,16 +63,10 @@ class _ConfimationCodeScreenState extends State<ConfimationCodeScreen> {
                   right: 20,
                 ),
                 child: PinFieldAutoFill(
-                  decoration: UnderlineDecoration(
-                    colorBuilder: isCodeTrue == false
-                        ? FixedColorBuilder(Colors.black)
-                        : FixedColorBuilder(Colors.red),
-                  ),
-                  controller: codeController,
+                  controller: newCodeController,
                   codeLength: 4,
                 ),
               ),
-              _wrongCodeInfo(),
               _button(context),
             ],
           ),
@@ -96,12 +85,12 @@ class _ConfimationCodeScreenState extends State<ConfimationCodeScreen> {
       ),
       child: InkWell(
         onTap: () async {
-          if (codeController.text.length == 4) {
-            var enteredCode = codeController.text;
-            context.read<LoginBloc>().add(CheckCodeEvent(pin: enteredCode));
-          } else if (codeController.text.length != 4) {
-            ;
-          }
+          if (newCodeController.text.length == 4) {
+            var enteredCode = newCodeController.text;
+            context
+                .read<LoginBloc>()
+                .add(CreateAccountEvent(newPin: enteredCode));
+          } else if (newCodeController.text.length != 4) {}
         },
         child: Container(
           height: 60,
@@ -122,33 +111,6 @@ class _ConfimationCodeScreenState extends State<ConfimationCodeScreen> {
     );
   }
 
-  _wrongCodeInfo() {
-    return BlocConsumer<LoginBloc, LoginState>(
-      listener: (context, state) {
-        if (state is WrongCodeState) ;
-      },
-      builder: (context, state) {
-        if (state is WrongCodeState) {
-          return Padding(
-            padding: EdgeInsets.only(
-              left: 20,
-              right: 10,
-              top: 10,
-              bottom: 15,
-            ),
-            child: Text(
-              "Неправильный код.\nПовторите пожалуйста еще раз.",
-              style: TextStyle(
-                color: Colors.red,
-              ),
-            ),
-          );
-        }
-        return Text("");
-      },
-    );
-  }
-
   void _listenOtp() async {
     await SmsAutoFill().listenForCode();
   }
@@ -157,7 +119,7 @@ class _ConfimationCodeScreenState extends State<ConfimationCodeScreen> {
     return Padding(
       padding: const EdgeInsets.all(20),
       child: Text(
-        "Код из сообщения",
+        "Задайте пароль",
         style: TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 27,

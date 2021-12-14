@@ -42,3 +42,6 @@ class CreateAccountEvent extends LoginEvent {
   @override
   List<Object> get props => [newPin];
 }
+
+//*
+class LogOutEvent extends LoginEvent {}

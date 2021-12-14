@@ -1,16 +1,18 @@
 # test_task_with_auto_route
 
-A new Flutter project.
+Написать базовую авторизацию для приложения. На первом экране запросить номер телефона, на втором запросить код подтверждения по смс (используйте константный пароль), на третьем экране предложить создать пин для входа в приложение (и сохранить его, чтобы при последующем входе в приложение по нему можно было войти). Последний экран с информацией об авторизации. 
+Предпочтительно использовать BLoC, Router (Auto_route или другой).
 
-## Getting Started
+Предоставить результат в архиве с кодом или ссылки на github.
 
-This project is a starting point for a Flutter application.
+Ссылка на макеты:
+https://www.figma.com/file/R4KVOJVIS9Mq9TbFEO24d1/
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+Write a basic authorization for the application. On the first screen, request a phone number, on the second, request a confirmation code by SMS (use a constant password), on the third screen, offer to create a pin to log in to the application (and save it so that you can log in using it later). The last screen with authorization information.
+Preferably use a block, Router (Auto_route or other).
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Provide the result in an archive with code or links to github.
+
+Link to layouts:
+https://www.figma.com/file/R4KVOJVIS9Mq9TbFEO24d1/

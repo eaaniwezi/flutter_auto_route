@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:test_task_with_auto_route/models/login_data.dart';
@@ -7,11 +9,11 @@ part 'login_state.dart';
 part 'login_event.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  final AuthRepository? authRepository;
+  final AuthRepository authRepository;
 
   LoginBloc({
     required LoginInitial initState,
-     this.authRepository,
+    required this.authRepository,
   }) : super(initState) {
     add(NoEvent());
   }
@@ -19,11 +21,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   @override
   Stream<LoginState> mapEventToState(LoginEvent event) async* {
     if (event is OnSubmitPhoneNumberEvent) {
-      authRepository!.savePhoneNumber(event.phoneNumber);
+      authRepository.savePhoneNumber(event.phoneNumber);
       yield SubmitPhoneNumberState();
       //!Navigate
     } else if (event is CheckCodeEvent) {
-      final isCodeTrue = authRepository!.checkPin(event.pin);
+      final isCodeTrue = authRepository.checkPin(event.pin);
 
       if (isCodeTrue == true) {
         //!yield a state
@@ -34,23 +36,23 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         yield WrongCodeState();
       }
     } else if (event is CreateAccountEvent) {
-      await authRepository!.saveCode(
+      await authRepository.saveCode(
         event.newPin,
       );
-      yield UserAuthenticated(authRepository!.details);
+      yield UserAuthenticated(authRepository.details);
     } else if (event is NoEvent) {
-      final bool hasToken = authRepository!.details.isValid();
-      print(hasToken);
-      print(hasToken);
-      print("hasToken");
-      print(hasToken);
-      print(hasToken);
-      // ignore: unnecessary_null_comparison
+      final bool hasToken = authRepository.details.isValid();
+
+      // final bool isRegisteredd = await authRepository.isRegistered();
+
       if (hasToken != null) {
-        yield UserAuthenticated(authRepository!.details);
+        yield UserAuthenticated(authRepository.details);
       } else {
         yield UserUnauthenticated();
       }
+    } else if (event is LogOutEvent) {
+      await authRepository.logOut();
+      yield UserUnauthenticated();
     }
   }
 
