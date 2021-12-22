@@ -19,7 +19,7 @@ class AuthRepository {
     final verificationCode = await storage.read(key: 'verification_code');
     final data = LoginData(
         phoneNumber: phone, code: code, verificationCode: verificationCode);
-    print(data.code);
+ 
     return AuthRepository(loginData: data);
   }
 

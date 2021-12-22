@@ -38,38 +38,41 @@ class MyApp extends StatelessWidget {
       // routeInformationParser: _appRouter.defaultRouteParser(),
       debugShowCheckedModeBanner: false,
       title: 'Test App',
-      home: Builder(builder: (context) {
-        return BlocListener<LoginBloc, LoginState>(
-          listener: (context, state) {
-            if (state is UserAuthenticated) {
-              Get.to(() => UserDetailsScreen());
-            } else if (state is UserUnauthenticated) {
-              Get.to(() => FirstScreen());
-            }
-          },
-          child: Scaffold(
-            body: Container(
-              color: Colors.white,
-              width: MediaQuery.of(context).size.width,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Center(
-                    child: Text(
-                      "Please wait a while...",
-                      style: TextStyle(
-                        color: Colors.black54,
-                        fontSize: 18,
+      home: Builder(
+        builder: (context) {
+          return BlocListener<LoginBloc, LoginState>(
+            listener: (context, state) {
+              print(state.toString() + " this is your statata");
+              if (state is UserAuthenticated) {
+                Get.to(() => UserDetailsScreen());
+              } else if (state is UserUnauthenticated) {
+                Get.to(() => FirstScreen());
+              }
+            },
+            child: Scaffold(
+              body: Container(
+                color: Colors.white,
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Center(
+                      child: Text(
+                        "Please wait a while...",
+                        style: TextStyle(
+                          color: Colors.black54,
+                          fontSize: 18,
+                        ),
                       ),
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
             ),
-          ),
-        );
-      }),
+          );
+        },
+      ),
     );
   }
 }

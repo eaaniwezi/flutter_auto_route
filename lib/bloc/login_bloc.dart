@@ -45,9 +45,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
       // final bool isRegisteredd = await authRepository.isRegistered();
 
-      if (hasToken != null) {
+      if (hasToken == true) {
+        print(hasToken.toString() + " hasToken");
         yield UserAuthenticated(authRepository.details);
-      } else {
+      } else if (hasToken == false) {
+        print(hasToken.toString() + " has no Token");
         yield UserUnauthenticated();
       }
     } else if (event is LogOutEvent) {
@@ -67,4 +69,5 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     print(event);
     super.onEvent(event);
   }
+  
 }

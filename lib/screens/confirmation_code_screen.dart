@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 import 'package:test_task_with_auto_route/bloc/login_bloc.dart';
 import 'package:test_task_with_auto_route/screens/create_new_password_screen.dart';
+import 'package:test_task_with_auto_route/widget/button.dart';
 
 class ConfimationCodeScreen extends StatefulWidget {
   const ConfimationCodeScreen({
@@ -48,7 +49,6 @@ class _ConfimationCodeScreenState extends State<ConfimationCodeScreen> {
       body: BlocListener<LoginBloc, LoginState>(
         listener: (context, state) {
           if (state is CorrectCodeState) {
-     
             Get.to(() => CreateNewPasswordScreen());
             // context.router.navigate(ConfimationCodeRoute());
           } else if (state is WrongCodeState) {
@@ -78,44 +78,20 @@ class _ConfimationCodeScreenState extends State<ConfimationCodeScreen> {
                 ),
               ),
               _wrongCodeInfo(),
-              _button(context),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  _button(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(
-        left: 40,
-        right: 40,
-        top: MediaQuery.of(context).size.height * 0.15,
-        bottom: 15,
-      ),
-      child: InkWell(
-        onTap: () async {
-          if (codeController.text.length == 4) {
-            var enteredCode = codeController.text;
-            context.read<LoginBloc>().add(CheckCodeEvent(pin: enteredCode));
-          } else if (codeController.text.length != 4) {
-            ;
-          }
-        },
-        child: Container(
-          height: 60,
-          width: double.infinity,
-          decoration: BoxDecoration(
-              color: Colors.indigo[900]!.withOpacity(0.9),
-              borderRadius: BorderRadius.circular(15)),
-          child: Center(
-            child: Text(
-              "Продолжить",
-              style: TextStyle(
-                color: Colors.white,
+              ButtonContainer(
+                label: "Продолжить",
+                onPressed: () async {
+                  if (codeController.text.length == 4) {
+                    var enteredCode = codeController.text;
+                    context
+                        .read<LoginBloc>()
+                        .add(CheckCodeEvent(pin: enteredCode));
+                  } else if (codeController.text.length != 4) {
+                    ;
+                  }
+                },
               ),
-            ),
+            ],
           ),
         ),
       ),

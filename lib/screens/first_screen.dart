@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:test_task_with_auto_route/bloc/login_bloc.dart';
+import 'package:test_task_with_auto_route/widget/button.dart';
 import '../screens/confirmation_code_screen.dart';
 // import 'package:auto_route/auto_route.dart';
 import 'package:test_task_with_auto_route/routes/app_router.gr.dart';
@@ -37,9 +38,8 @@ class _FirstScreenState extends State<FirstScreen> {
           listenWhen: (oldState, newState) =>
               newState is SubmitPhoneNumberState,
           listener: (context, state) {
-         
             if (state is SubmitPhoneNumberState) {
-               Get.to(() => ConfimationCodeScreen());
+              Get.to(() => ConfimationCodeScreen());
               // context.router.navigate(ConfimationCodeRoute());
             }
           },
@@ -48,7 +48,18 @@ class _FirstScreenState extends State<FirstScreen> {
               _header(),
               _numberField(),
               _infoText(),
-              _button(context),
+              ButtonContainer(
+                label: "Продолжить",
+                onPressed: () async {
+                  if (_formKey.currentState!.validate()) {
+                    final signCode = await SmsAutoFill().getAppSignature;
+                    print(signCode);
+                    var phoneNumber = phoneNumberController.text;
+                    context.read<LoginBloc>().add(
+                        OnSubmitPhoneNumberEvent(phoneNumber: phoneNumber));
+                  }
+                },
+              ),
             ],
           ),
         ),
@@ -73,7 +84,7 @@ class _FirstScreenState extends State<FirstScreen> {
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: TextFormField(
-        cursorColor: Colors.indigo[900],
+        cursorColor: Color(0xff182647),
         style: TextStyle(
           fontSize: 25,
         ),
@@ -87,7 +98,7 @@ class _FirstScreenState extends State<FirstScreen> {
         decoration: InputDecoration(
           focusedBorder: UnderlineInputBorder(
             borderSide: BorderSide(
-              color: Colors.deepPurple[900]!.withOpacity(0.9),
+              color: Color(0xff182647),
             ),
           ),
         ),
@@ -102,44 +113,6 @@ class _FirstScreenState extends State<FirstScreen> {
         "Вам придет сообщение с кодом.\nНикому его не говорите.",
         style: TextStyle(
           color: Colors.black45,
-        ),
-      ),
-    );
-  }
-
-  _button(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(
-        left: 40,
-        right: 40,
-        top: MediaQuery.of(context).size.height * 0.15,
-        bottom: 15,
-      ),
-      child: InkWell(
-        onTap: () async {
-          if (_formKey.currentState!.validate()) {
-            final signCode = await SmsAutoFill().getAppSignature;
-            print(signCode);
-            var phoneNumber = phoneNumberController.text;
-            context
-                .read<LoginBloc>()
-                .add(OnSubmitPhoneNumberEvent(phoneNumber: phoneNumber));
-          }
-        },
-        child: Container(
-          height: 60,
-          width: double.infinity,
-          decoration: BoxDecoration(
-              color: Colors.indigo[900]!.withOpacity(0.9),
-              borderRadius: BorderRadius.circular(15)),
-          child: Center(
-            child: Text(
-              "Продолжить",
-              style: TextStyle(
-                color: Colors.white,
-              ),
-            ),
-          ),
         ),
       ),
     );

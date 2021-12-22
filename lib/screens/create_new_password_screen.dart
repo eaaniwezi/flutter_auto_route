@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 import 'package:test_task_with_auto_route/bloc/login_bloc.dart';
 import 'package:test_task_with_auto_route/screens/user_details_screen.dart';
+import 'package:test_task_with_auto_route/widget/button.dart';
 
 class CreateNewPasswordScreen extends StatefulWidget {
   const CreateNewPasswordScreen({
@@ -47,7 +48,6 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
       ),
       body: BlocListener<LoginBloc, LoginState>(
         listener: (context, state) {
-        
           if (state is UserAuthenticated) {
             Get.to(() => UserDetailsScreen());
           }
@@ -67,44 +67,18 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
                   codeLength: 4,
                 ),
               ),
-              _button(context),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  _button(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(
-        left: 40,
-        right: 40,
-        top: MediaQuery.of(context).size.height * 0.15,
-        bottom: 15,
-      ),
-      child: InkWell(
-        onTap: () async {
-          if (newCodeController.text.length == 4) {
-            var enteredCode = newCodeController.text;
-            context
-                .read<LoginBloc>()
-                .add(CreateAccountEvent(newPin: enteredCode));
-          } else if (newCodeController.text.length != 4) {}
-        },
-        child: Container(
-          height: 60,
-          width: double.infinity,
-          decoration: BoxDecoration(
-              color: Colors.indigo[900]!.withOpacity(0.9),
-              borderRadius: BorderRadius.circular(15)),
-          child: Center(
-            child: Text(
-              "Продолжить",
-              style: TextStyle(
-                color: Colors.white,
+              ButtonContainer(
+                label: "Продолжить",
+                onPressed: () async {
+                  if (newCodeController.text.length == 4) {
+                    var enteredCode = newCodeController.text;
+                    context
+                        .read<LoginBloc>()
+                        .add(CreateAccountEvent(newPin: enteredCode));
+                  } else if (newCodeController.text.length != 4) {}
+                },
               ),
-            ),
+            ],
           ),
         ),
       ),

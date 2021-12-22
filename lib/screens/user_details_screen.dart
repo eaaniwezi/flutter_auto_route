@@ -14,25 +14,25 @@ class UserDetailsScreen extends StatelessWidget {
           LoginData userLoginData = state.data;
           return Scaffold(
             backgroundColor: Colors.white,
-            // appBar: AppBar(
-            //   elevation: 0,
-            //   backgroundColor: Colors.white,
-            //   leading: Text(""),
-            //   actions: [
-            //     IconButton(
-            //       onPressed: () {
-            //           context
-            //     .read<LoginBloc>()
-            //     .add(LogOutEvent());
+            appBar: AppBar(
+              elevation: 0,
+              backgroundColor: Colors.white,
+              leading: Text(""),
+              actions: [
+                IconButton(
+                  onPressed: () {
+                      context
+                .read<LoginBloc>()
+                .add(LogOutEvent());
    
-            //       },
-            //       icon: Icon(
-            //         Icons.logout_rounded,
-            //         color: Colors.black,
-            //       ),
-            //     ),
-            //   ],
-            // ),
+                  },
+                  icon: Icon(
+                    Icons.logout_rounded,
+                    color: Colors.black,
+                  ),
+                ),
+              ],
+            ),
             body: Padding(
               padding: const EdgeInsets.all(20.0),
               child: Column(
